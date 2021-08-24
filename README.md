@@ -4,9 +4,11 @@ Flash games have gone out of style so I remade tank trouble to play with friends
 
 ## features
 
--`two player modes` : allows for two players on the same device
+-`two player modes` : allows for two players on the same device!
 
--`powerups`
+-`powerups` : Featuring the powerups of the original tank trouble plus more!
+
+-`two way movement`
 
 # Hello Website (blank)
 
