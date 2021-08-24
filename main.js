@@ -42,7 +42,16 @@ function insideRect(x, y, i, options = 1) {
 			return j;
 	}
 }
-
+class Entity {
+  constructor(id, image, PROPS = {}) {
+    this.id = id;
+    this.refresh = function() {
+      let img = new Image();
+					img.src = image;
+					ctx.drawImage(img, this.x, this.y, this.width, this.height);
+    }
+  }
+}
 class UIBox {
 	//initialize the entity and fill it with whatever text is needed
 	constructor(
