@@ -37,16 +37,16 @@ function options() {
         ["Settings:", HEIGHT / 45, 0, "start", WIDTH / 30], 1);
     moveIn(-WIDTH + WIDTH - (WIDTH / 5), [WIDTH, 0 + (HEIGHT / 45), WIDTH / 5 - 10, HEIGHT * 0.2 - (HEIGHT / 15), "optionsBack"],
         ["< Back", HEIGHT / 45, 0, "start", WIDTH / 47], 2);
-    moveIn(-WIDTH + 10, [WIDTH, HEIGHT * 0.5 - (HEIGHT / 30), WIDTH - 20, HEIGHT * 0.1, "weaponsTitle"],
-        ["Weapons Enabled:", HEIGHT / 45, 0, "start", WIDTH / 38], 1);
     moveIn(-WIDTH + 10, [WIDTH, HEIGHT * 0.2 - (HEIGHT / 30), WIDTH - 20, HEIGHT * 0.1, "gamespeedBtn"],
         ["Game Speed:", HEIGHT / 45, 0, "start", WIDTH / 47], 2);
     moveIn(WIDTH + 10, [-WIDTH, HEIGHT * 0.3 - (HEIGHT / 30), WIDTH - 20, HEIGHT * 0.1, "gamespeedDisplay"],
         ["gameInfo.gamespeed", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
     moveIn(WIDTH + 10, [-WIDTH, HEIGHT * 0.4 - (HEIGHT / 30), WIDTH/2 - 20, HEIGHT * 0.1, "LDMBtn"],
-        ["LDM:", HEIGHT / 45, 0, "start", WIDTH / 38], 1);
+        ["LDM:", HEIGHT / 45, 0, "start", WIDTH / 38], 2);
     moveIn(WIDTH + 10, [-WIDTH/2, HEIGHT * 0.4 - (HEIGHT / 30), WIDTH/2 - 20, HEIGHT * 0.1, "LDMDisplay"],
         ["gameInfo.LDM", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
+    moveIn(-WIDTH + 10, [WIDTH, HEIGHT * 0.6 - (HEIGHT / 30), WIDTH - 20, HEIGHT * 0.1, "weaponsTitle"],
+        ["Weapons Enabled:", HEIGHT / 45, 0, "start", WIDTH / 38], 1);
   for(let i = 0; i < length; i++) {
     moveIn(-WIDTH + 10, [WIDTH + (i*(WIDTH-20)/length), HEIGHT * 0.7 - (HEIGHT / 30), (WIDTH-20) / length, HEIGHT * 0.1, "enableW"],
         [weaponOptions[i], HEIGHT / 45, 0, "start", WIDTH / 60], 2);
@@ -140,6 +140,17 @@ class UIBox {
 						);
 					}
 					break;
+          case 2:
+						ctx.fillStyle = "#b5b3b3";
+						ctx.beginPath();
+						ctx.rect(
+							this.x,
+							this.y,
+							this.width,
+							this.height
+						);
+						ctx.fill();
+            ctx.fillStyle = "black";
 			}
 			this.clicked = function(event) {
         if (this.type == 3) numberSubmit(insideRect(event.clientX, event.clientY, this, this.options));
