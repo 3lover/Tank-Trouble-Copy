@@ -4,7 +4,7 @@ const c = document.getElementById("canvas"),
 	WIDTH = window.innerWidth,
 	HEIGHT = window.innerHeight;
 var entities = [],
-	gameInfo = {};
+	gameInfo = {gamespeed: 1, powerupsAllowed: [1,1,1,1]};
 
 function init() {
 	//sizes the canvas appropriately and resets the console before refreshing everything
@@ -19,12 +19,27 @@ function startScreen() {
 	entities = [];
 	moveIn(WIDTH + 10, [-WIDTH, 0 + (HEIGHT / 45), WIDTH - 20, HEIGHT * 0.2 - (HEIGHT / 15), "mainMenuTitle"],
 		["Tank Trouble", WIDTH / 2 - 10, 0, "center", WIDTH / 30], 1);
-	moveIn(WIDTH + 10, [-WIDTH, HEIGHT - (HEIGHT / 4) - (HEIGHT / 30), WIDTH - 20, HEIGHT / 4, "gamestartselect"],
+	moveIn(WIDTH + 10, [-WIDTH, HEIGHT - (HEIGHT / 4) - (HEIGHT / 30), WIDTH - 20, HEIGHT / 4, "startingOptionsSelector"],
 		["Start Game#bCustom Maps#bSettings", HEIGHT / 45, 0, "start", WIDTH / 47], 3);
 	moveIn(WIDTH + 10, [-WIDTH / 2 - HEIGHT * 0.25, HEIGHT - (HEIGHT * 0.8) - (HEIGHT / 30), HEIGHT * 0.5, HEIGHT * 0.5, "mainIconImg"],
 		["https://cdn.glitch.com/0db611cc-f0cd-40d9-bdc8-efe23eb38aeb%2F8ebb5463-7976-4df9-937e-1c79ddb80527.image.png?v=1629825210671",
 			HEIGHT / 45, 0, "start", WIDTH / 47
 		], 5);
+}
+function options() {
+    entities = [];
+    moveIn(WIDTH + 10, [-WIDTH, 0 + (HEIGHT / 45), WIDTH - 20 - (WIDTH / 5), HEIGHT * 0.2 - (HEIGHT / 15), "optionsTitle"],
+        ["Settings:", HEIGHT / 45, 0, "start", WIDTH / 47], 1);
+    moveIn(-WIDTH + WIDTH - (WIDTH / 5), [WIDTH, 0 + (HEIGHT / 45), WIDTH / 5 - 10, HEIGHT * 0.2 - (HEIGHT / 15), "optionsBack"],
+        ["< Back", HEIGHT / 45, 0, "start", WIDTH / 47], 2);
+    moveIn(-WIDTH + 10, [WIDTH, HEIGHT * 0.3 - (HEIGHT / 30), WIDTH - 20, HEIGHT * 0.1, "gamespeedBtn"],
+        ["Game Speed:", HEIGHT / 45, 0, "start", WIDTH / 47], 2);
+    moveIn(WIDTH + 10, [-WIDTH, HEIGHT * 0.4 - (HEIGHT / 30), WIDTH - 20, HEIGHT * 0.1, "gamespeedDisplay"],
+        ["gameInfo.gamespeed", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
+    moveIn(-WIDTH + 10, [WIDTH, HEIGHT * 0.6 - (HEIGHT / 30), WIDTH - 20, HEIGHT * 0.1, "enableFrag"],
+        ["Cheats Enabled:", HEIGHT / 45, 0, "start", WIDTH / 47], 2);
+    moveIn(WIDTH + 10, [-WIDTH, HEIGHT * 0.7 - (HEIGHT / 30), WIDTH - 20, HEIGHT * 0.1, "fragDisplay"],
+        ["gameInfo.powerupsAllowed[0]", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
 }
 
 function insideRect(x, y, i, options = 1) {
@@ -114,8 +129,13 @@ class UIBox {
 			this.clicked = function(event) {
         if (this.type == 3) numberSubmit(insideRect(event.clientX, event.clientY, this, this.options));
 				switch (this.id) {
-					case "startGame":
-						//start stuff
+					case "optionsBack":
+            entities = [];
+						startScreen();
+						break;
+          case "enableFrag":
+            entities = [];
+						startScreen();
 						break;
 				}
         refresh();
@@ -190,7 +210,18 @@ function numberSubmit(num) {
 	if (select.state != num) select.state = num;
 	else {
 		switch (select.id) {
-			case "randomSelectScreen":
+			case "startingOptionsSelector":
+        switch(select.state) {
+          case 0:
+            startGame();
+            break;
+          case 1:
+            customMap();
+            break;
+          case 2:
+            options();
+            break;
+        }
 				break;
 		}
 	}
