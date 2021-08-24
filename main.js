@@ -28,7 +28,7 @@ function startScreen() {
 }
 function options() {
     entities = [];
-    let weaponOptions = {0:'Frag', 1:'thik bullet', 2:'rocket', 3:'landmine', 4:'thik missile'}
+    let weaponOptions = {0:'Frag', 1:'Gatling', 2:'Guided Missile', 3:'Land Mine', 4:'Laser', 5:'Guided Missile',}
     moveIn(WIDTH + 10, [-WIDTH, 0 + (HEIGHT / 45), WIDTH - 20 - (WIDTH / 5), HEIGHT * 0.2 - (HEIGHT / 15), "optionsTitle"],
         ["Settings:", HEIGHT / 45, 0, "start", WIDTH / 30], 1);
     moveIn(-WIDTH + WIDTH - (WIDTH / 5), [WIDTH, 0 + (HEIGHT / 45), WIDTH / 5 - 10, HEIGHT * 0.2 - (HEIGHT / 15), "optionsBack"],
@@ -39,10 +39,10 @@ function options() {
         ["Game Speed:", HEIGHT / 45, 0, "start", WIDTH / 47], 2);
     moveIn(WIDTH + 10, [-WIDTH, HEIGHT * 0.3 - (HEIGHT / 30), WIDTH - 20, HEIGHT * 0.1, "gamespeedDisplay"],
         ["gameInfo.gamespeed", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
-  for(let i = 0; i < 5; i++) {
-    moveIn(-WIDTH + 10, [WIDTH + (i*WIDTH*0.2), HEIGHT * 0.6 - (HEIGHT / 30), WIDTH/5 - (WIDTH/60), HEIGHT * 0.1, "enableW" + i],
+  for(let i = 0; i < weaponOptions.length; i++) {
+    moveIn(-WIDTH + 10, [WIDTH + (i*WIDTH*0.2), HEIGHT * 0.6 - (HEIGHT / 30), WIDTH/weaponOptions.length - (WIDTH/60), HEIGHT * 0.1, "enableW" + i],
         [weaponOptions[i], HEIGHT / 45, 0, "start", WIDTH / 47], 2);
-    moveIn(WIDTH + 10, [-WIDTH + (i*WIDTH*0.2), HEIGHT * 0.7 - (HEIGHT / 30), WIDTH/5 - (WIDTH/60), HEIGHT * 0.1, "fragDisplay"],
+    moveIn(WIDTH + 10, [-WIDTH + (i*WIDTH*0.2), HEIGHT * 0.7 - (HEIGHT / 30), WIDTH/weaponOptions.length - (WIDTH/60), HEIGHT * 0.1, "fragDisplay"],
         ["gameInfo.powerupsAllowed[" + i + "]", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
   }
 }
