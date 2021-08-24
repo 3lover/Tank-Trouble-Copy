@@ -4,7 +4,7 @@ const c = document.getElementById("canvas"),
 	WIDTH = window.innerWidth,
 	HEIGHT = window.innerHeight;
 var entities = [],
-	gameInfo = {gamespeed: 1, powerupsAllowed: [1,1,1,1], LDM: false};
+	gameInfo = {gamespeed: 1, powerupsAllowed: [1,1,1,1], LDM: true};
 
 function init() {
 	//sizes the canvas appropriately and resets the console before refreshing everything
@@ -28,7 +28,10 @@ function startScreen() {
 }
 function options() {
     entities = [];
-    let weaponOptions = {0:'Frag', 1:'Gatling', 2:'Guided Missile', 3:'Land Mine', 4:'Laser', 5:'Guided Missile'},
+    let weaponOptions = {
+      0:'Frag', 1:'Gatling', 2:'Guided Missile', 3:'Land Mine', 4:'Laser', 5:'Controlled Missile',
+      6:'Shotgun', 7:'Death Ray', 8:'Ram', 9:'Shield'
+    },
     length = Object.keys(weaponOptions).length;
     moveIn(WIDTH + 10, [-WIDTH, 0 + (HEIGHT / 45), WIDTH - 20 - (WIDTH / 5), HEIGHT * 0.2 - (HEIGHT / 15), "optionsTitle"],
         ["Settings:", HEIGHT / 45, 0, "start", WIDTH / 30], 1);
@@ -45,10 +48,10 @@ function options() {
     moveIn(WIDTH + 10, [-WIDTH/2, HEIGHT * 0.4 - (HEIGHT / 30), WIDTH/2 - 20, HEIGHT * 0.1, "LDMDisplay"],
         ["gameInfo.LDM", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
   for(let i = 0; i < length; i++) {
-    moveIn(-WIDTH + 10, [WIDTH + (i*WIDTH/length), HEIGHT * 0.6 - (HEIGHT / 30), WIDTH/length - (WIDTH/60), HEIGHT * 0.1, "enableW"],
+    moveIn(-WIDTH + 10, [WIDTH + (i*WIDTH/length), HEIGHT * 0.6 - (HEIGHT / 30), (WIDTH / length, HEIGHT * 0.1, "enableW"],
         [weaponOptions[i], HEIGHT / 45, 0, "start", WIDTH / 47], 2);
     entities[entities.length-1].state = i
-    moveIn(WIDTH + 10, [-WIDTH + (i*WIDTH/length), HEIGHT * 0.7 - (HEIGHT / 30), WIDTH/length - (WIDTH/60), HEIGHT * 0.1, "fragDisplay"],
+    moveIn(WIDTH + 10, [-WIDTH + (i*WIDTH/length), HEIGHT * 0.7 - (HEIGHT / 30), (WIDTH / length, HEIGHT * 0.1, "fragDisplay"],
         ["gameInfo.powerupsAllowed[" + i + "]", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
   }
   refresh();
@@ -204,11 +207,13 @@ function moveIn() {
 	//first argument is the total movement (will be over the course of 1/2 a second), the rest are properties used to spawn an entity
 	let t = new UIBox(arguments[1], arguments[2], arguments[3]);
 	entities.push(t);
+  if (!gameInfo.LDM)
 	for (let i = 0; i < 100; i++)
 		setTimeout(() => {
 			t.x += arguments[0] / 100;
 			refresh();
 		}, 5 * i / gameInfo.gamespeed);
+  else t.x += arguments[0];
 }
 
 function getMousePosition(event) {
