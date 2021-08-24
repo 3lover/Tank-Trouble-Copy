@@ -4,7 +4,7 @@ const c = document.getElementById("canvas"),
 	WIDTH = window.innerWidth,
 	HEIGHT = window.innerHeight;
 var entities = [],
-	gameInfo = {gamespeed: 1, powerupsAllowed: [1,1,1,1], LDM: true};
+	gameInfo = {gamespeed: 1, powerupsAllowed: [1,1,1,1,1,1,1,1,1,1], LDM: true};
 
 function init() {
 	//sizes the canvas appropriately and resets the console before refreshing everything
@@ -29,7 +29,7 @@ function startScreen() {
 function options() {
     entities = [];
     let weaponOptions = {
-      0:'Frag', 1:'Gatling', 2:'Guided Missile', 3:'Land Mine', 4:'Laser', 5:'Controlled Missile',
+      0:'Frag', 1:'Gatling', 2:'Guided#bMissile', 3:'Land#bMine', 4:'Laser', 5:'Controlled#bMissile',
       6:'Shotgun', 7:'Death Ray', 8:'Ram', 9:'Shield'
     },
     length = Object.keys(weaponOptions).length;
@@ -48,10 +48,10 @@ function options() {
     moveIn(WIDTH + 10, [-WIDTH/2, HEIGHT * 0.4 - (HEIGHT / 30), WIDTH/2 - 20, HEIGHT * 0.1, "LDMDisplay"],
         ["gameInfo.LDM", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
   for(let i = 0; i < length; i++) {
-    moveIn(-WIDTH + 10, [WIDTH + (i*WIDTH/length), HEIGHT * 0.6 - (HEIGHT / 30), (WIDTH / length, HEIGHT * 0.1, "enableW"],
-        [weaponOptions[i], HEIGHT / 45, 0, "start", WIDTH / 47], 2);
+    moveIn(-WIDTH + 10, [WIDTH + (i*(WIDTH-20)/length), HEIGHT * 0.7 - (HEIGHT / 30), (WIDTH-20) / length, HEIGHT * 0.1, "enableW"],
+        [weaponOptions[i], HEIGHT / 45, 0, "start", WIDTH / 60], 2);
     entities[entities.length-1].state = i
-    moveIn(WIDTH + 10, [-WIDTH + (i*WIDTH/length), HEIGHT * 0.7 - (HEIGHT / 30), (WIDTH / length, HEIGHT * 0.1, "fragDisplay"],
+    moveIn(WIDTH + 10, [-WIDTH + (i*(WIDTH-20)/length), HEIGHT * 0.8 - (HEIGHT / 30), (WIDTH-20) / length, HEIGHT * 0.1, "displayW" + i],
         ["gameInfo.powerupsAllowed[" + i + "]", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
   }
   refresh();
@@ -183,7 +183,7 @@ class UIBox {
 					ctx.fillText(
 						stringLines[i],
 						this.x + CONTENT[1],
-						this.y + CONTENT[2] + CONTENT[4] + i * this.height
+						this.y + CONTENT[2] + (i * CONTENT[4]) + this.height/2
 					);
 					if (i > 2) break;
 				}
