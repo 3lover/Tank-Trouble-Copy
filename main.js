@@ -28,7 +28,7 @@ function startScreen() {
 }
 function options() {
     entities = [];
-    let weaponOptions = {''}
+    let weaponOptions = {0:'Frag', 1:'thik bullet', 2:'rocket', 3:'landmine', 4:'thik missile'}
     moveIn(WIDTH + 10, [-WIDTH, 0 + (HEIGHT / 45), WIDTH - 20 - (WIDTH / 5), HEIGHT * 0.2 - (HEIGHT / 15), "optionsTitle"],
         ["Settings:", HEIGHT / 45, 0, "start", WIDTH / 30], 1);
     moveIn(-WIDTH + WIDTH - (WIDTH / 5), [WIDTH, 0 + (HEIGHT / 45), WIDTH / 5 - 10, HEIGHT * 0.2 - (HEIGHT / 15), "optionsBack"],
@@ -40,10 +40,10 @@ function options() {
     moveIn(WIDTH + 10, [-WIDTH, HEIGHT * 0.3 - (HEIGHT / 30), WIDTH - 20, HEIGHT * 0.1, "gamespeedDisplay"],
         ["gameInfo.gamespeed", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
   for(let i = 0; i < 5; i++) {
-    moveIn(-WIDTH + 10, [WIDTH + (i*WIDTH*0.2), HEIGHT * 0.6 - (HEIGHT / 30), WIDTH/5 - (WIDTH/60), HEIGHT * 0.1, "enableFrag"],
-        ["Frag Enabled:", HEIGHT / 45, 0, "start", WIDTH / 47], 2);
+    moveIn(-WIDTH + 10, [WIDTH + (i*WIDTH*0.2), HEIGHT * 0.6 - (HEIGHT / 30), WIDTH/5 - (WIDTH/60), HEIGHT * 0.1, "enableW" + i],
+        [weaponOptions[i], HEIGHT / 45, 0, "start", WIDTH / 47], 2);
     moveIn(WIDTH + 10, [-WIDTH + (i*WIDTH*0.2), HEIGHT * 0.7 - (HEIGHT / 30), WIDTH/5 - (WIDTH/60), HEIGHT * 0.1, "fragDisplay"],
-        ["gameInfo.powerupsAllowed[0]", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
+        ["gameInfo.powerupsAllowed[" + i + "]", HEIGHT / 45, 0, "start", WIDTH / 47], 4);
   }
 }
 
@@ -144,8 +144,20 @@ class UIBox {
                                 gameInfo.gamespeed + 0.5;
                         refresh();
 						break;
-          case "enableFrag":
+          case "enableW0":
             gameInfo.powerupsAllowed[0] = gameInfo.powerupsAllowed[0] == 1 ? 0 : 1
+						break;
+          case "enableW1":
+            gameInfo.powerupsAllowed[1] = gameInfo.powerupsAllowed[1] == 1 ? 0 : 1
+						break;
+          case "enableW2":
+            gameInfo.powerupsAllowed[2] = gameInfo.powerupsAllowed[2] == 1 ? 0 : 1
+						break;
+          case "enableW3":
+            gameInfo.powerupsAllowed[3] = gameInfo.powerupsAllowed[3] == 1 ? 0 : 1
+						break;
+          case "enableW4":
+            gameInfo.powerupsAllowed[4] = gameInfo.powerupsAllowed[4] == 1 ? 0 : 1
 						break;
 				}
         refresh();
@@ -198,7 +210,7 @@ function moveIn() {
 		setTimeout(() => {
 			t.x += arguments[0] / 100;
 			refresh();
-		}, 5 * i);
+		}, 5 * i / gameInfo.gamespeed);
 }
 
 function getMousePosition(event) {
