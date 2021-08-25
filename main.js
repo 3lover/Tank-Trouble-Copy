@@ -366,6 +366,7 @@ document.addEventListener("keyup", function(e) {
 function moveTank(id, dir, toggle) {
   for (let i = 0; i < entities.length; i++)
 		if (entities[i].id == id) {
+      console.innerHTML += [dir - 1] + "<br>"
       this.movement[dir - 1] = toggle;
     }
   refresh();
@@ -374,18 +375,17 @@ function moveTank(id, dir, toggle) {
 function moveloop() {
   for (let i = 0; i < entities.length; i++) {
     let e = entities[i];
-    console.innerHTML += "r"
     for(let j = 1; j < 5; j++){
+    if (e.movement){
+      //console.innerHTML = e.movement
 		if (e.movement[j - 1]) {
       e.x += j == 2 ? 10 : j == 0 ? -10 : 0
       e.y += j == 1 ? 10 : j == 3 ? -10 : 0
     }
     }
+    }
   }
-  setTimeout(() => {
-    moveloop();
-  }, 100)
 }
 
 init();
-moveloop();
+setInterval(moveloop(), 100);
