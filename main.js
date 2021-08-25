@@ -241,15 +241,14 @@ class Entity {
       ctx.beginPath();
       let img = new Image();
       img.src = image;
-      context.translate(this.x, this.y);
+      ctx.translate(this.x, this.y);
       ctx.rotate(this.direction);
-      ctx.drawImage(img, -this.width / 2, -this.height / 2, this.width, this.height)
-      ctx.beginPath();
+      ctx.drawImage(img, -this.width / 2, -this.height / 2, this.width, this.height);
       ctx.fillStyle = "black";
-      ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height)
       ctx.stroke();
       ctx.rotate(-this.direction);
-      context.translate(-this.x, -this.y);
+      ctx.translate(-this.x, -this.y);
     };
   }
 }
