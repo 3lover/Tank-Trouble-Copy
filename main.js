@@ -290,9 +290,28 @@ function moveTank(id, dir) {
   refresh();
 }
 
-function keyPress(event) {
+function keyPress(event, up) {
 	var keyCode = event.which || event.keyCode;
-	switch (keyCode) {
+  if (up)
+    switch (keyCode) {
+    case 37:
+			// left arrow pressed
+			moveTank(1,1,0);
+			break;
+		case 39:
+			//right arrow pressed
+			moveTank(1,3,0);
+			break;
+		case 38:
+			// up arrow pressed
+      moveTank(1,4,0);
+			break;
+		case 40:
+			//down arrow pressed
+      moveTank(1,2,0);
+			break;
+	  }
+  else switch (keyCode) {
 		case 13:
 			numberSubmit(-1);
 			break;
@@ -323,7 +342,7 @@ function keyPress(event) {
 			break;
     case 37:
 			// left arrow pressed
-			moveTank(1,1);
+			moveTank(1,1,1);
 			break;
 		case 39:
 			//right arrow pressed
@@ -346,7 +365,10 @@ c.addEventListener("mousedown", function(e) {
 	getMousePosition(e);
 });
 document.addEventListener("keydown", function(e) {
-	keyPress(e);
+	keyPress(e, false);
+});
+document.addEventListener("keyup", function(e) {
+	keyPress(e, true);
 });
 
 init();
