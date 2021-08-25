@@ -206,7 +206,7 @@ function tanktest() {
   let e = new Entity(
     1,
     "https://cdn.glitch.com/0db611cc-f0cd-40d9-bdc8-efe23eb38aeb%2F8ebb5463-7976-4df9-937e-1c79ddb80527.image.png?v=1629825210671",
-    { x: 100, y: 100, width: 30, height: 30 }
+    { x: 500, y: 500, width: 30, height: 30 }
   );
   entities.push(e);
   refresh();
@@ -235,16 +235,21 @@ class Entity {
     this.width = PROPS.width;
     this.height = PROPS.height;
     this.movement = [0, 0];
-    this.direction = 0;
+    this.direction = 1;
     this.maxspeed = 5;
     this.refresh = function() {
+      ctx.beginPath();
       let img = new Image();
       img.src = image;
-      ctx.drawImage(img, this.x, this.y, this.width, this.height);
+      context.translate(this.x, this.y);
+      ctx.rotate(this.direction);
+      ctx.drawImage(img, -this.width / 2, -this.height / 2, this.width, this.height)
       ctx.beginPath();
       ctx.fillStyle = "black";
       ctx.rect(this.x, this.y, this.width, this.height);
       ctx.stroke();
+      ctx.rotate(-this.direction);
+      context.translate(-this.x, -this.y);
     };
   }
 }
@@ -477,11 +482,11 @@ function keyPress(event, up) {
         break;
       case 37:
         // left arrow pressed
-        moveTank(1, 3, -4);
+        moveTank(1, 3, -0.1);
         break;
       case 39:
         //right arrow pressed
-        moveTank(1, 2, 4);
+        moveTank(1, 2, 0.1);
         break;
       case 38:
         // up arrow pressed
@@ -510,7 +515,7 @@ function moveTank(id, dir, toggle) {
   for (let i = 0; i < entities.length; i++)
     if (entities[i].id == id) {
       if(dir < 2) entities[i].movement[dir] = toggle;
-      else entities[i].direction += dir == 2 ? toggle : -toggle
+      else entities[i].direction += toggle
     }
   refresh();
 }
