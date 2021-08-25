@@ -4,7 +4,8 @@ const c = document.getElementById("canvas"),
 	WIDTH = window.innerWidth,
 	HEIGHT = window.innerHeight;
 var entities = [],
-	gameInfo = {gamespeed: 1, powerupsAllowed: [1,1,1,1,1,1,1,1,1,1], LDM: true};
+	gameInfo = {gamespeed: 1, powerupsAllowed: [1,1,1,1,1,1,1,1,1,1], LDM: true},
+  inputWaiting = true;
 
 function init() {
 	//sizes the canvas appropriately and resets the console before refreshing everything
@@ -16,6 +17,7 @@ function init() {
 }
 
 function startScreen() {
+  inputWaiting = true;
 	entities = [];
 	moveIn(WIDTH + 10, [-WIDTH, 0 + (HEIGHT / 45), WIDTH - 20, HEIGHT * 0.2 - (HEIGHT / 15), "mainMenuTitle"],
 		["Tank Trouble", WIDTH / 2 - 10, 0, "center", WIDTH / 30], 1);
@@ -57,10 +59,11 @@ function options() {
   refresh();
 }
 function tanktest() {
-  entities = []
-  let e = new Entity(1,"https://cdn.glitch.com/0db611cc-f0cd-40d9-bdc8-efe23eb38aeb%2F8ebb5463-7976-4df9-937e-1c79ddb80527.image.png?v=1629825210671",{x:100,y:100})
-    entities.push(e);
-  refres
+  inputWaiting = false;
+  entities = [];
+  let e = new Entity(1,"https://cdn.glitch.com/0db611cc-f0cd-40d9-bdc8-efe23eb38aeb%2F8ebb5463-7976-4df9-937e-1c79ddb80527.image.png?v=1629825210671",{x:100,y:100,width:30,height:30})
+  entities.push(e);
+  refresh();
 }
 
 function insideRect(x, y, i, options = 1) {
@@ -83,10 +86,16 @@ class Entity {
     this.id = id;
     this.x = PROPS.x;
 		this.y = PROPS.y;
+    this.width = PROPS.width;
+		this.height = PROPS.height;
     this.refresh = function() {
       let img = new Image();
 					img.src = image;
 					ctx.drawImage(img, this.x, this.y, this.width, this.height);
+      ctx.beginPath();
+			ctx.fillStyle = "black";
+			ctx.rect(this.x, this.y, this.width, this.height);
+			ctx.stroke();
     }
   }
 }
@@ -257,7 +266,7 @@ function numberSubmit(num) {
 			case "startingOptionsSelector":
         switch(select.state) {
           case 0:
-            //startGame();
+            tanktest()//startGame();
             break;
           case 1:
             //customMap();
@@ -278,6 +287,7 @@ function moveTank(id, dir) {
       entities[i].x += dir == 3 ? 10 : dir == 1 ? -10 : 0
       entities[i].y += dir == 2 ? 10 : dir == 4 ? -10 : 0
     }
+  refresh();
 }
 
 function keyPress(event) {
@@ -321,13 +331,13 @@ function keyPress(event) {
 			break;
 		case 38:
 			// up arrow pressed
-			numberSubmit(-2);
-      moveTank(1,2);
+			if(inputWaiting) numberSubmit(-2);
+      else moveTank(1,4);
 			break;
 		case 40:
 			//down arrow pressed
-			numberSubmit(-3);
-      moveTank(1,4);
+			if(inputWaiting) numberSubmit(-3);
+      else moveTank(1,2);
 			break;
 	}
 }
