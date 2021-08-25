@@ -281,11 +281,11 @@ function numberSubmit(num) {
 	refresh();
 }
 
-function moveTank(id, dir) {
+function moveTank(id, dir, toggle) {
   for (let i = 0; i < entities.length; i++)
 		if (entities[i].id == id) {
-      entities[i].x += dir == 3 ? 10 : dir == 1 ? -10 : 0
-      entities[i].y += dir == 2 ? 10 : dir == 4 ? -10 : 0
+      if (dir == 3 || dir == 1) this.movex = toggle;
+      else this.movex = toggle;
     }
   refresh();
 }
@@ -346,17 +346,17 @@ function keyPress(event, up) {
 			break;
 		case 39:
 			//right arrow pressed
-			moveTank(1,3);
+			moveTank(1,3,1);
 			break;
 		case 38:
 			// up arrow pressed
 			if(inputWaiting) numberSubmit(-2);
-      else moveTank(1,4);
+      else moveTank(1,4,1);
 			break;
 		case 40:
 			//down arrow pressed
 			if(inputWaiting) numberSubmit(-3);
-      else moveTank(1,2);
+      else moveTank(1,2,1);
 			break;
 	}
 }
@@ -371,4 +371,15 @@ document.addEventListener("keyup", function(e) {
 	keyPress(e, true);
 });
 
+function moveloop() {
+  for (let i = 0; i < entities.length; i++) {
+    let e = entities[i];
+		if (e.movex != 0) {
+      e.x += e.movex == 3 ? 10 : e.movex == 1 ? -10 : 0
+      e.y += e.movey == 2 ? 10 : e.movey == 4 ? -10 : 0
+    }
+  }
+}
+
 init();
+moveloop();
