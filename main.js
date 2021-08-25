@@ -234,7 +234,9 @@ class Entity {
     this.y = PROPS.y;
     this.width = PROPS.width;
     this.height = PROPS.height;
-    this.movement = [0, 0, 0, 0];
+    this.movement = [0, 0];
+    this.direction = 0;
+    this.maxspeed = 5;
     this.refresh = function() {
       let img = new Image();
       img.src = image;
@@ -434,21 +436,13 @@ function keyPress(event, up) {
   var keyCode = event.which || event.keyCode;
   if (up)
     switch (keyCode) {
-      case 37:
-        // left arrow pressed
-        moveTank(1, 0, 0);
-        break;
-      case 39:
-        //right arrow pressed
-        moveTank(1, 2, 0);
-        break;
       case 38:
         // up arrow pressed
         moveTank(1, 1, 0);
         break;
       case 40:
         //down arrow pressed
-        moveTank(1, 3, 0);
+        moveTank(1, 0, 0);
         break;
     }
   else
@@ -483,11 +477,11 @@ function keyPress(event, up) {
         break;
       case 37:
         // left arrow pressed
-        moveTank(1, 0, 1);
+        moveTank(1, 3, -4);
         break;
       case 39:
         //right arrow pressed
-        moveTank(1, 2, 1);
+        moveTank(1, 2, 4);
         break;
       case 38:
         // up arrow pressed
@@ -497,7 +491,7 @@ function keyPress(event, up) {
       case 40:
         //down arrow pressed
         if (inputWaiting) numberSubmit(-3);
-        else moveTank(1, 3, 1);
+        else moveTank(1, 0, 1);
         break;
     }
 }
@@ -515,8 +509,8 @@ document.onkeyup = function(e) {
 function moveTank(id, dir, toggle) {
   for (let i = 0; i < entities.length; i++)
     if (entities[i].id == id) {
-      this.movement[dir] = toggle;
-      console.innerHTML = "t"//this.movement[dir] + "<br>" + toggle;
+      if(dir < 2) entities[i].movement[dir] = toggle;
+      else entities[i].direction += dir == 2 ? toggle : -toggle
     }
   refresh();
 }
@@ -524,17 +518,14 @@ function moveTank(id, dir, toggle) {
 function moveloop() {
   for (let i = 0; i < entities.length; i++) {
     let e = entities[i];
-    for (let j = 0; j < 4; j++) {
-      if (e.movement) {
-        if (e.movement[j]) {
-          e.x += j == 2 ? 10 : j == 0 ? -10 : 0;
-          e.y += j == 1 ? 10 : j == 3 ? -10 : 0;
-        }
-      }
+    for (let j = 0; j < 2; j++) {
+      if (e.movement)
+        if (e.movement[j])
+          e.y += j == 0 ? e.maxspeed : j == 1 ? -e.maxspeed : 0;
     }
   }
   refresh();
 }
 
 init();
-setInterval(moveloop, 500);
+setInterval(moveloop, 25);
