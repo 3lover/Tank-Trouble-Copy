@@ -56,6 +56,12 @@ function options() {
   }
   refresh();
 }
+function tanktest() {
+  entities = []
+  let e = new Entity(1,"https://cdn.glitch.com/0db611cc-f0cd-40d9-bdc8-efe23eb38aeb%2F8ebb5463-7976-4df9-937e-1c79ddb80527.image.png?v=1629825210671",{x:100,y:100})
+    entities.push(e);
+  refres
+}
 
 function insideRect(x, y, i, options = 1) {
 	//checks if the x/y position given is within button number i, and return what option for selectors
@@ -75,6 +81,8 @@ function insideRect(x, y, i, options = 1) {
 class Entity {
   constructor(id, image, PROPS = {}) {
     this.id = id;
+    this.x = PROPS.x;
+		this.y = PROPS.y;
     this.refresh = function() {
       let img = new Image();
 					img.src = image;
@@ -264,6 +272,14 @@ function numberSubmit(num) {
 	refresh();
 }
 
+function moveTank(id, dir) {
+  for (let i = 0; i < entities.length; i++)
+		if (entities[i].id == id) {
+      entities[i].x += dir == 3 ? 10 : dir == 1 ? -10 : 0
+      entities[i].y += dir == 2 ? 10 : dir == 4 ? -10 : 0
+    }
+}
+
 function keyPress(event) {
 	var keyCode = event.which || event.keyCode;
 	switch (keyCode) {
@@ -295,13 +311,23 @@ function keyPress(event) {
 			// 6 pressed
 			numberSubmit(5);
 			break;
+    case 37:
+			// left arrow pressed
+			moveTank(1,1);
+			break;
+		case 39:
+			//right arrow pressed
+			moveTank(1,3);
+			break;
 		case 38:
 			// up arrow pressed
 			numberSubmit(-2);
+      moveTank(1,2);
 			break;
 		case 40:
 			//down arrow pressed
 			numberSubmit(-3);
+      moveTank(1,4);
 			break;
 	}
 }
