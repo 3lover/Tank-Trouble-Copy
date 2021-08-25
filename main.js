@@ -88,6 +88,7 @@ class Entity {
 		this.y = PROPS.y;
     this.width = PROPS.width;
 		this.height = PROPS.height;
+    this.movement = [0,0,0,0];
     this.refresh = function() {
       let img = new Image();
 					img.src = image;
@@ -281,26 +282,17 @@ function numberSubmit(num) {
 	refresh();
 }
 
-function moveTank(id, dir, toggle) {
-  for (let i = 0; i < entities.length; i++)
-		if (entities[i].id == id) {
-      if (dir == 3 || dir == 1) this.movex = toggle;
-      else this.movex = toggle;
-    }
-  refresh();
-}
-
 function keyPress(event, up) {
 	var keyCode = event.which || event.keyCode;
   if (up)
     switch (keyCode) {
     case 37:
 			// left arrow pressed
-			moveTank(1,1,0);
+			moveTank(0,1,0);
 			break;
 		case 39:
 			//right arrow pressed
-			moveTank(1,3,0);
+			moveTank(2,3,0);
 			break;
 		case 38:
 			// up arrow pressed
@@ -308,7 +300,7 @@ function keyPress(event, up) {
 			break;
 		case 40:
 			//down arrow pressed
-      moveTank(1,2,0);
+      moveTank(3,2,0);
 			break;
 	  }
   else switch (keyCode) {
@@ -342,11 +334,11 @@ function keyPress(event, up) {
 			break;
     case 37:
 			// left arrow pressed
-			moveTank(1,1,1);
+			moveTank(0,1,1);
 			break;
 		case 39:
 			//right arrow pressed
-			moveTank(1,3,1);
+			moveTank(2,3,1);
 			break;
 		case 38:
 			// up arrow pressed
@@ -356,7 +348,7 @@ function keyPress(event, up) {
 		case 40:
 			//down arrow pressed
 			if(inputWaiting) numberSubmit(-3);
-      else moveTank(1,2,1);
+      else moveTank(3,2,1);
 			break;
 	}
 }
@@ -371,14 +363,28 @@ document.addEventListener("keyup", function(e) {
 	keyPress(e, true);
 });
 
+function moveTank(id, dir, toggle) {
+  for (let i = 0; i < entities.length; i++)
+		if (entities[i].id == id) {
+      this.movement[dir - 1] = toggle;
+    }
+  refresh();
+}
+
 function moveloop() {
   for (let i = 0; i < entities.length; i++) {
     let e = entities[i];
-		if (e.movex != 0) {
-      e.x += e.movex == 3 ? 10 : e.movex == 1 ? -10 : 0
-      e.y += e.movey == 2 ? 10 : e.movey == 4 ? -10 : 0
+    console.innerHTML += "r"
+    for(let j = 1; j < 5; j++){
+		if (e.movement[j - 1]) {
+      e.x += j == 2 ? 10 : j == 0 ? -10 : 0
+      e.y += j == 1 ? 10 : j == 3 ? -10 : 0
+    }
     }
   }
+  setTimeout(() => {
+    moveloop();
+  }, 100)
 }
 
 init();
