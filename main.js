@@ -288,19 +288,19 @@ function keyPress(event, up) {
     switch (keyCode) {
     case 37:
 			// left arrow pressed
-			moveTank(0,1,0);
+			moveTank(1,0,0);
 			break;
 		case 39:
 			//right arrow pressed
-			moveTank(2,3,0);
+			moveTank(1,2,0);
 			break;
 		case 38:
 			// up arrow pressed
-      moveTank(1,4,0);
+      moveTank(1,1,0);
 			break;
 		case 40:
 			//down arrow pressed
-      moveTank(3,2,0);
+      moveTank(1,3,0);
 			break;
 	  }
   else switch (keyCode) {
@@ -334,21 +334,21 @@ function keyPress(event, up) {
 			break;
     case 37:
 			// left arrow pressed
-			moveTank(0,1,1);
+			moveTank(1,0,1);
 			break;
 		case 39:
 			//right arrow pressed
-			moveTank(2,3,1);
+			moveTank(1,2,1);
 			break;
 		case 38:
 			// up arrow pressed
 			if(inputWaiting) numberSubmit(-2);
-      else moveTank(1,4,1);
+      else moveTank(1,1,1);
 			break;
 		case 40:
 			//down arrow pressed
 			if(inputWaiting) numberSubmit(-3);
-      else moveTank(3,2,1);
+      else moveTank(1,3,1);
 			break;
 	}
 }
@@ -356,18 +356,18 @@ function keyPress(event, up) {
 c.addEventListener("mousedown", function(e) {
 	getMousePosition(e);
 });
-document.addEventListener("keydown", function(e) {
+document.onkeydown = function(e) {
 	keyPress(e, false);
-});
-document.addEventListener("keyup", function(e) {
+};
+document.onkeyup = function(e) {
 	keyPress(e, true);
-});
+}
 
 function moveTank(id, dir, toggle) {
   for (let i = 0; i < entities.length; i++)
 		if (entities[i].id == id) {
-      console.innerHTML += [dir - 1] + "<br>"
-      this.movement[dir - 1] = toggle;
+      console.innerHTML = dir + "<br>"
+      this.movement[dir] = toggle;
     }
   refresh();
 }
@@ -375,17 +375,19 @@ function moveTank(id, dir, toggle) {
 function moveloop() {
   for (let i = 0; i < entities.length; i++) {
     let e = entities[i];
-    for(let j = 1; j < 5; j++){
+    console.innerHTML += e.movement
+    for(let j = 0; j < 4; j++){
     if (e.movement){
-      //console.innerHTML = e.movement
-		if (e.movement[j - 1]) {
+      //console.innerHTML += e.movement
+		if (e.movement[j]) {
       e.x += j == 2 ? 10 : j == 0 ? -10 : 0
       e.y += j == 1 ? 10 : j == 3 ? -10 : 0
     }
     }
     }
   }
+  refresh();
 }
 
 init();
-setInterval(moveloop(), 100);
+setInterval(moveloop, 500);
