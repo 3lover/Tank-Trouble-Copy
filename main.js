@@ -219,8 +219,8 @@ function tanktest() {
 		"w", 0, {
 			x: WIDTH / 40 * 5,
 			y: WIDTH / 40 * 5,
-			width: WIDTH / 30,
-			height: WIDTH / 30
+			width: WIDTH / 8,
+			height: WIDTH / 8
 		}, 1
 	);
 	entities.push(e);
@@ -264,18 +264,18 @@ class Entity {
 		this.movement = [0, 0, 0, 0];
 		this.direction = 0;
 		this.maxspeed = WIDTH / 200;
-    this.type = type;
-    this.collisions = function() {
-      if (this.x + this.width/2 > WIDTH || this.x - this.width/2 < 0 ||
-          this.y + this.height*2 > HEIGHT || this.y - this.height/2 < 0) return "w";
-		for (let j = 0; j < entities.length; j++) {
-			let obj = this;
-			let other = entities[j];
-			if (obj.id === other.id) continue;
-      if (Math.sqrt((other.x-obj.x)*(other.x-obj.x) + (other.y-obj.y)*(other.y-obj.y)) < obj.width) return other.id;
+		this.type = type;
+		this.collisions = function() {
+			if (this.x + this.width / 2 > WIDTH || this.x - this.width / 2 < 0 ||
+				this.y + this.height * 2 > HEIGHT || this.y - this.height / 2 < 0) return "w";
+			for (let j = 0; j < entities.length; j++) {
+				let obj = this;
+				let other = entities[j];
+				if (obj.id === other.id) continue;
+				if (Math.sqrt((other.x - obj.x) * (other.x - obj.x) + (other.y - obj.y) * (other.y - obj.y)) < obj.width) return other.id;
+			}
+			return null
 		}
-	return null
-    }
 		this.refresh = function() {
 			ctx.beginPath();
 			ctx.translate(this.x, this.y);
@@ -287,9 +287,9 @@ class Entity {
 						img.src = image;
 						ctx.drawImage(img, -this.width / 2, -this.height / 2, this.width, this.height);
 					}
-                    ctx.arc(0, 0, this.width/2, 0, 360)
-          ctx.fillStyle = "red"
-          ctx.fill();
+					ctx.arc(0, 0, this.width / 2, 0, 360)
+					ctx.fillStyle = "red"
+					ctx.fill();
 					ctx.fillStyle = "black";
 					ctx.lineWidth = 5;
 					ctx.moveTo(-this.width / 2, -this.height / 2);
@@ -300,15 +300,15 @@ class Entity {
 					ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
 					ctx.stroke();
 					break;
-        case 1:
-          ctx.lineWidth = 2;
+				case 1:
+					ctx.lineWidth = 2;
 					ctx.fillStyle = "black";
 					ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
 					ctx.fill();
-          break;
+					break;
 			}
-      		ctx.rotate(-this.direction);
-					ctx.translate(-this.x, -this.y);
+			ctx.rotate(-this.direction);
+			ctx.translate(-this.x, -this.y);
 		};
 	}
 }
@@ -389,10 +389,8 @@ class UIBox {
 						break;
 					case "gamespeedBtn":
 						gameInfo.gamespeed =
-							gameInfo.gamespeed >= 3 ?
-							0.25 :
-							gameInfo.gamespeed < 1 ?
-							gameInfo.gamespeed + 0.25 :
+							gameInfo.gamespeed >= 3 ? 0.25 : 
+              gameInfo.gamespeed < 1 ? gameInfo.gamespeed + 0.25 :
 							gameInfo.gamespeed + 0.5;
 						refresh();
 						break;
