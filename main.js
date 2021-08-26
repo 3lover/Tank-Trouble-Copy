@@ -212,7 +212,7 @@ function tanktest() {
 			y: 500,
 			width: 30,
 			height: 35
-		}
+		}, 0
 	);
 	entities.push(e);
 	e = new Entity(
@@ -221,10 +221,10 @@ function tanktest() {
 			y: 200,
 			width: 30,
 			height: 30
-		}
+		}, 1
 	);
 	entities.push(e);
-  	moveIn(
+	moveIn(
 		-WIDTH + WIDTH - WIDTH / 5,
 		[
 			WIDTH,
@@ -255,7 +255,7 @@ function insideRect(x, y, i, options = 1) {
 	}
 }
 class Entity {
-	constructor(id, image, PROPS = {}) {
+	constructor(id, image, PROPS = {}, type) {
 		this.id = id;
 		this.x = PROPS.x;
 		this.y = PROPS.y;
@@ -264,26 +264,37 @@ class Entity {
 		this.movement = [0, 0, 0, 0];
 		this.direction = 0;
 		this.maxspeed = 5;
+    this.type = type;
 		this.refresh = function() {
 			ctx.beginPath();
 			ctx.translate(this.x, this.y);
 			ctx.rotate(this.direction);
-			if (image != 0) {
-                let img = new Image();
-			          img.src = image;
-                ctx.drawImage(img, -this.width / 2, -this.height / 2, this.width, this.height);
-            }
-			ctx.fillStyle = "black";
-			ctx.lineWidth = 5;
-			ctx.moveTo(-this.width / 2, -this.height / 2);
-			ctx.lineTo(this.width / 2, -this.height / 2);
-			ctx.stroke();
-			ctx.lineWidth = 2;
-			ctx.fillStyle = "black";
-			ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height)
-			ctx.stroke();
-			ctx.rotate(-this.direction);
-			ctx.translate(-this.x, -this.y);
+			switch (this.type) {
+				case 0:
+					if (image != 0) {
+						let img = new Image();
+						img.src = image;
+						ctx.drawImage(img, -this.width / 2, -this.height / 2, this.width, this.height);
+					}
+					ctx.fillStyle = "black";
+					ctx.lineWidth = 5;
+					ctx.moveTo(-this.width / 2, -this.height / 2);
+					ctx.lineTo(this.width / 2, -this.height / 2);
+					ctx.stroke();
+					ctx.lineWidth = 2;
+					ctx.fillStyle = "black";
+					ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+					ctx.stroke();
+					break;
+        case 1:
+          ctx.lineWidth = 2;
+					ctx.fillStyle = "black";
+					ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+					ctx.fill();
+          break;
+			}
+      		ctx.rotate(-this.direction);
+					ctx.translate(-this.x, -this.y);
 		};
 	}
 }
@@ -567,18 +578,20 @@ function radians_to_degrees(radians) {
 }
 
 function collisions() {
-  console.innerHTML = "";
-    for (let i = 0; i < entities.length; i++) {
-      for (let j = 0; j < entities.length; j++) {
-        let obj = entities[i];
-        let other = entities[j];
-        if (i === j) continue;
-        if (obj.x + obj.width/2 > other.x - other.width/2 &&
-            obj.x - obj.width/2 < other.x + other.width/2 &&
-            obj.y + obj.height/2 > other.y - other.height/2 &&
-            obj.y - obj.height/2 < other.y + other.height/2) r;
-    }
-  }
+	console.innerHTML = "";
+	for (let i = 0; i < entities.length; i++) {
+		for (let j = 0; j < entities.length; j++) {
+			let obj = entities[i];
+			let other = entities[j];
+			if (i === j) continue;
+			/*if (obj.x + obj.width / 2 > other.x - other.width / 2 &&
+				obj.x - obj.width / 2 < other.x + other.width / 2 &&
+				obj.y + obj.height / 2 > other.y - other.height / 2 &&
+				obj.y - obj.height / 2 < other.y + other.height / 2) return other.id;*/
+      if (Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)) < r) return other.id;
+		}
+	}
+	return 1
 }
 
 function moveloop() {
@@ -591,20 +604,23 @@ function moveloop() {
 					let xrate = 0,
 						yrate = 0,
 						dird = Math.abs(radians_to_degrees(e.direction)),
-            ratio = 1;
+						ratio = 1;
 					dird %= 360;
 					dird -= 180;
 					let sign = dird < 0 ? -1 : 1
 					yrate = (90 - Math.abs(dird)) / 90;
 					xrate = (1 - Math.abs(yrate)) * sign;
-					e.y += j == 1 ? e.maxspeed * yrate * gameInfo.gamespeed : j == 0 ? -e.maxspeed * yrate * gameInfo.gamespeed : 0
+					e.y += j == 1 ? e.maxspeed * yrate * gameInfo.gamespeed : j == 0 ? -e.maxspeed * yrate * gameInfo.gamespeed : 0;
 					e.x += j == 1 ? e.maxspeed * xrate * gameInfo.gamespeed : j == 0 ? -e.maxspeed * xrate * gameInfo.gamespeed : 0;
 					e.direction += j == 2 ? 0.1 * gameInfo.gamespeed : j == 3 ? -0.1 * gameInfo.gamespeed : 0;
+					if (collisions() == "w") {
+						e.y -= j == 1 ? e.maxspeed * yrate * gameInfo.gamespeed : j == 0 ? -e.maxspeed * yrate * gameInfo.gamespeed : 0;
+						e.x -= j == 1 ? e.maxspeed * xrate * gameInfo.gamespeed : j == 0 ? -e.maxspeed * xrate * gameInfo.gamespeed : 0;
+					}
 				}
 		}
 	}
-	collisions();
-  refresh();
+	refresh();
 }
 
 init();
