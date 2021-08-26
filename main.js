@@ -254,7 +254,7 @@ function insideRect(x, y, i, options = 1) {
 			return j;
 	}
 }
-function intersectCircle(x, y, radius, px, py) {
+function intersectCircle(px, py, radius, x, y) {
   return Math.sqrt((x.x - px.x) * (x.x - px.x) + (y.y - py.y) * (y.y - py.y)) < radius
 }
 function intersectRect(px, py, x1, x2, y1, y2) {
@@ -278,11 +278,13 @@ class Entity {
 				let obj = this;
 				let other = entities[j];
 				if (obj.id === other.id) continue;
-        let x1 = this.x,
-            x2 = this.y + obj.height/2,
-            y1 = this.y ,
-            y2 = this.y + obj.width/2;
-        return (intersectRect(obj.x, obj.y, x1, x2, y1, y2) || //checks if circle is in rect
+        let x1 = other.x - other.width/2,
+            x2 = other.x + other.width/2,
+            y1 = other.y - other.height/2,
+            y2 = other.y + other.height/2;
+        console.innerHTML = x1 + " : " + x2 + " : " + y1 + " : " + y2 + "<br>"
+        console.innerHTML += obj.x + " : " + obj.y
+        if (intersectRect(obj.x, obj.y, x1, x2, y1, y2) || //checks if circle is in rect
             intersectCircle(obj.x, obj.y, obj.width ,x1, y1) ||//checks if left top corner in circle
             intersectCircle(obj.x, obj.y, obj.width ,x2, y1) ||//top right
             intersectCircle(obj.x, obj.y, obj.width ,x1, y2) ||//bottom left
