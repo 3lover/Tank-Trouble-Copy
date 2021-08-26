@@ -224,6 +224,18 @@ function tanktest() {
 		}
 	);
 	entities.push(e);
+  	moveIn(
+		-WIDTH + WIDTH - WIDTH / 5,
+		[
+			WIDTH,
+			0 + HEIGHT / 45,
+			WIDTH / 5 - 10,
+			HEIGHT * 0.2 - HEIGHT / 15,
+			"optionsBack"
+		],
+		["< Back", HEIGHT / 45, 0, "start", WIDTH / 47],
+		2
+	);
 	refresh();
 }
 
