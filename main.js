@@ -208,19 +208,19 @@ function tanktest() {
 	let e = new Entity(
 		1,
 		0, {
-			x: 500,
-			y: 500,
-			width: 30,
-			height: 35
+			x: WIDTH / 40 * 10,
+			y: WIDTH / 40 * 10,
+			width: WIDTH / 35,
+			height: WIDTH / 30
 		}, 0
 	);
 	entities.push(e);
 	e = new Entity(
 		"w", 0, {
-			x: 200,
-			y: 200,
-			width: 30,
-			height: 30
+			x: WIDTH / 40 * 5,
+			y: WIDTH / 40 * 5,
+			width: WIDTH / 30,
+			height: WIDTH / 30
 		}, 1
 	);
 	entities.push(e);
@@ -263,7 +263,7 @@ class Entity {
 		this.height = PROPS.height;
 		this.movement = [0, 0, 0, 0];
 		this.direction = 0;
-		this.maxspeed = 5;
+		this.maxspeed = WIDTH / 200;
     this.type = type;
 		this.refresh = function() {
 			ctx.beginPath();
@@ -276,6 +276,9 @@ class Entity {
 						img.src = image;
 						ctx.drawImage(img, -this.width / 2, -this.height / 2, this.width, this.height);
 					}
+                    ctx.arc(0, 0, this.width/2, 0, 360)
+          ctx.fillStyle = "red"
+          ctx.fill();
 					ctx.fillStyle = "black";
 					ctx.lineWidth = 5;
 					ctx.moveTo(-this.width / 2, -this.height / 2);
@@ -285,10 +288,6 @@ class Entity {
 					ctx.fillStyle = "black";
 					ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
 					ctx.stroke();
-          ctx.arc(0, 0, this.width, 0, 360)
-          ctx.fillStyle = "red"
-          ctx.fill();
-          ctx.fillStyle = 'black'
 					break;
         case 1:
           ctx.lineWidth = 2;
@@ -595,7 +594,7 @@ function collisions() {
       if (Math.sqrt((other.x-obj.x)*(other.x-obj.x) + (other.y-obj.y)*(other.y-obj.y)) < obj.width) return other.id;
 		}
 	}
-	return 1
+	return null
 }
 
 function moveloop() {
