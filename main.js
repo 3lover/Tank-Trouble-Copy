@@ -265,6 +265,17 @@ class Entity {
 		this.direction = 0;
 		this.maxspeed = WIDTH / 200;
     this.type = type;
+    this.collisions = function() {
+      if (this.x + this.width/2 > WIDTH || this.x - this.width/2 < 0 ||
+          this.y + this.height/2 > HEIGHT || this.y - this.height/2 < 0) return "w";
+		for (let j = 0; j < entities.length; j++) {
+			let obj = this;
+			let other = entities[j];
+			if (obj.id === other.id) continue;
+      if (Math.sqrt((other.x-obj.x)*(other.x-obj.x) + (other.y-obj.y)*(other.y-obj.y)) < obj.width) return other.id;
+		}
+	return null
+    }
 		this.refresh = function() {
 			ctx.beginPath();
 			ctx.translate(this.x, this.y);
@@ -580,23 +591,6 @@ function radians_to_degrees(radians) {
 	return radians * (180 / pi);
 }
 
-function collisions() {
-	console.innerHTML = "";
-	for (let i = 0; i < entities.length; i++) {
-		for (let j = 0; j < entities.length; j++) {
-			let obj = entities[i];
-			let other = entities[j];
-			if (i === j) continue;
-			/*if (obj.x + obj.width / 2 > other.x - other.width / 2 &&
-				obj.x - obj.width / 2 < other.x + other.width / 2 &&
-				obj.y + obj.height / 2 > other.y - other.height / 2 &&
-				obj.y - obj.height / 2 < other.y + other.height / 2) return other.id;*/
-      if (Math.sqrt((other.x-obj.x)*(other.x-obj.x) + (other.y-obj.y)*(other.y-obj.y)) < obj.width) return other.id;
-		}
-	}
-	return null
-}
-
 function moveloop() {
 	for (let i = 0; i < entities.length; i++) {
 		let e = entities[i];
@@ -616,7 +610,7 @@ function moveloop() {
 					e.y += j == 1 ? e.maxspeed * yrate * gameInfo.gamespeed : j == 0 ? -e.maxspeed * yrate * gameInfo.gamespeed : 0;
 					e.x += j == 1 ? e.maxspeed * xrate * gameInfo.gamespeed : j == 0 ? -e.maxspeed * xrate * gameInfo.gamespeed : 0;
 					e.direction += j == 2 ? 0.1 * gameInfo.gamespeed : j == 3 ? -0.1 * gameInfo.gamespeed : 0;
-					if (collisions() == "w") {
+					if (e.collisions() == "w") {
 						e.y -= j == 1 ? e.maxspeed * yrate * gameInfo.gamespeed : j == 0 ? -e.maxspeed * yrate * gameInfo.gamespeed : 0;
 						e.x -= j == 1 ? e.maxspeed * xrate * gameInfo.gamespeed : j == 0 ? -e.maxspeed * xrate * gameInfo.gamespeed : 0;
 					}
