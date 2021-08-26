@@ -14,7 +14,7 @@ var entities = [],
 function init() {
 	//sizes the canvas appropriately and resets the console before refreshing everything
 	ctx.canvas.width = WIDTH;
-	ctx.canvas.height = HEIGHT;
+	ctx.canvas.height = HEIGHT - 60;
 	console.innerHTML = "";
 	startScreen();
 	refresh();
@@ -567,10 +567,18 @@ function radians_to_degrees(radians) {
 }
 
 function collisions() {
+  console.innerHTML = "";
     for (let i = 0; i < entities.length; i++) {
-        let e = entities[i];
-        
+      for (let j = 0; j < entities.length; j++) {
+        let obj = entities[i];
+        let other = entities[j];
+        if (i === j) continue;
+        if (obj.x + obj.width/2 > other.x - other.width/2 &&
+            obj.x - obj.width/2 < other.x + other.width/2 &&
+            obj.y + obj.height/2 > other.y - other.height/2 &&
+            obj.y - obj.height/2 < other.y + other.height/2) console.innerHTML = "h";
     }
+  }
 }
 
 function moveloop() {
