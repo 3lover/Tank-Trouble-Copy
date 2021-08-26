@@ -211,14 +211,14 @@ function tanktest() {
 			x: 500,
 			y: 500,
 			width: 30,
-			height: 30
+			height: 35
 		}
 	);
 	entities.push(e);
 	e = new Entity(
 		"w", 0, {
-			x: 2000,
-			y: 2000,
+			x: 200,
+			y: 200,
 			width: 30,
 			height: 30
 		}
@@ -263,10 +263,8 @@ class Entity {
             }
 			ctx.fillStyle = "black";
 			ctx.lineWidth = 5;
-			//ctx.moveTo(-this.width / 2, -this.height / 2);
-			//ctx.lineTo(this.width / 2, -this.height / 2);
-      ctx.moveTo(0, 0);
-			ctx.lineTo(50, 50);
+			ctx.moveTo(-this.width / 2, -this.height / 2);
+			ctx.lineTo(this.width / 2, -this.height / 2);
 			ctx.stroke();
 			ctx.lineWidth = 2;
 			ctx.fillStyle = "black";
