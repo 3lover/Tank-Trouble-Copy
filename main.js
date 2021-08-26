@@ -287,6 +287,27 @@ class Entity {
         if (intersectRect(obj.x, obj.y, x1, x2, y1, y2) || //checks if circle is in rect
             intersectCircle(obj.x, obj.y, obj.width ,x1, y1, x2, y2))//checks if left top corner in circle
         return other.id;
+    /*var distX = Math.abs(obj.x - other.x - other.width / 2);
+    var distY = Math.abs(obj.y - other.y - other.height / 2);
+
+    if (distX > (other.width / 2 + obj.radius)) {
+        return false;
+    }
+    if (distY > (other.height / 2 + obj.radius)) {
+        return false;
+    }
+
+    if (distX <= (other.width / 2)) {
+        return true;
+    }
+    if (distY <= (other.height / 2)) {
+        return true;
+    }
+
+    var dx = distX - other.width / 2;
+    var dy = distY - other.height / 2;
+    if (dx * dx + dy * dy <= (obj.radius * obj.radius))
+      return other.id;*/
 				//if (Math.sqrt((other.x - obj.x) * (other.x - obj.x) + (other.y - obj.y) * (other.y - obj.y)) < obj.width) return other.id;
 			}
 			return null
