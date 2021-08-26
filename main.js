@@ -254,6 +254,12 @@ function insideRect(x, y, i, options = 1) {
 			return j;
 	}
 }
+function intersectCircle(px, py, radius, x2, y2) {
+  return
+}
+function intersectRect(px, py, x1, x2, y1, y2) {
+  return
+}
 class Entity {
 	constructor(id, image, PROPS = {}, type) {
 		this.id = id;
@@ -272,11 +278,15 @@ class Entity {
 				let obj = this;
 				let other = entities[j];
 				if (obj.id === other.id) continue;
-        return (pointInRectangle(P, Rectangle(A, B, C, D)) ||
-            intersectCircle(S, (A, B)) ||
-            intersectCircle(S, (B, C)) ||
-            intersectCircle(S, (C, D)) ||
-            intersectCircle(S, (D, A)))
+        let x1 = 0,
+            x2 = obj.height,
+            y1 = 0,
+            y2 = obj.width;
+        return (intersectRect(other.x, other.y, x1, x2, y1, y2) ||
+            intersectCircle(other.x, other.y, 5,x1, x2, y1, y2) ||
+            intersectCircle(other.x, other.y, 5,x1, x2, y1, y2) ||
+            intersectCircle(other.x, other.y, 5,x1, x2, y1, y2) ||
+            intersectCircle(other.x, other.y, 5,x1, x2, y1, y2))
 				//if (Math.sqrt((other.x - obj.x) * (other.x - obj.x) + (other.y - obj.y) * (other.y - obj.y)) < obj.width) return other.id;
 			}
 			return null
