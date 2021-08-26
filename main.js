@@ -272,7 +272,12 @@ class Entity {
 				let obj = this;
 				let other = entities[j];
 				if (obj.id === other.id) continue;
-				if (Math.sqrt((other.x - obj.x) * (other.x - obj.x) + (other.y - obj.y) * (other.y - obj.y)) < obj.width) return other.id;
+        return (pointInRectangle(P, Rectangle(A, B, C, D)) ||
+            intersectCircle(S, (A, B)) ||
+            intersectCircle(S, (B, C)) ||
+            intersectCircle(S, (C, D)) ||
+            intersectCircle(S, (D, A)))
+				//if (Math.sqrt((other.x - obj.x) * (other.x - obj.x) + (other.y - obj.y) * (other.y - obj.y)) < obj.width) return other.id;
 			}
 			return null
 		}
