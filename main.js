@@ -570,7 +570,8 @@ function moveloop() {
 					if (e.direction > 0) e.direction -= 10000 * Math.PI
 					let xrate = 0,
 						yrate = 0,
-						dird = Math.abs(radians_to_degrees(e.direction));
+						dird = Math.abs(radians_to_degrees(e.direction)),
+            ratio = 1;
 					dird %= 360;
 					dird -= 180;
 					let sign = dird < 0 ? -1 : 1
