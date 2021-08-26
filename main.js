@@ -254,7 +254,7 @@ function insideRect(x, y, i, options = 1) {
 			return j;
 	}
 }
-function intersectCircle(px, py, radius, x, y) {
+function intersectCircle(px, py, radius, x, y, x2, y2) {
   return Math.sqrt((x.x - px.x) * (x.x - px.x) + (y.y - py.y) * (y.y - py.y)) < radius
 }
 function intersectRect(px, py, x1, x2, y1, y2) {
@@ -285,10 +285,7 @@ class Entity {
         console.innerHTML = x1 + " : " + x2 + " : " + y1 + " : " + y2 + "<br>"
         console.innerHTML += obj.x + " : " + obj.y
         if (intersectRect(obj.x, obj.y, x1, x2, y1, y2) || //checks if circle is in rect
-            intersectCircle(obj.x, obj.y, obj.width ,x1, y1) ||//checks if left top corner in circle
-            intersectCircle(obj.x, obj.y, obj.width ,x2, y1) ||//top right
-            intersectCircle(obj.x, obj.y, obj.width ,x1, y2) ||//bottom left
-            intersectCircle(obj.x, obj.y, obj.width ,x2, y2))//bottom right
+            intersectCircle(obj.x, obj.y, obj.width ,x1, y1, x2, y2))//checks if left top corner in circle
         return other.id;
 				//if (Math.sqrt((other.x - obj.x) * (other.x - obj.x) + (other.y - obj.y) * (other.y - obj.y)) < obj.width) return other.id;
 			}
