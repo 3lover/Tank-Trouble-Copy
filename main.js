@@ -206,16 +206,6 @@ function tanktest() {
 	inputWaiting = false;
 	entities = [];
 	let e = new Entity(
-		1,
-		0, {
-			x: WIDTH / 40 * 10,
-			y: WIDTH / 40 * 10,
-			width: WIDTH / 35,
-			height: WIDTH / 30
-		}, 0
-	);
-	entities.push(e);
-	e = new Entity(
 		"w", 0, {
 			x: WIDTH / 40 * 5,
 			y: WIDTH / 40 * 5,
@@ -236,6 +226,16 @@ function tanktest() {
 		["< Back", HEIGHT / 45, 0, "start", WIDTH / 47],
 		2
 	);
+  	e = new Entity(
+		1,
+		0, {
+			x: WIDTH / 40 * 10,
+			y: WIDTH / 40 * 10,
+			width: WIDTH / 35,
+			height: WIDTH / 30
+		}, 0
+	);
+	entities.push(e);
 	refresh();
 }
 
@@ -254,11 +254,11 @@ function insideRect(x, y, i, options = 1) {
 			return j;
 	}
 }
-function intersectCircle(px, py, radius, x2, y2) {
-  return
+function intersectCircle(x, y, radius, px, py) {
+  return Math.sqrt((x.x - px.x) * (x.x - px.x) + (y.y - py.y) * (y.y - py.y)) < radius
 }
 function intersectRect(px, py, x1, x2, y1, y2) {
-  return
+  return (px > x1 && px < x2 && py > y1 && py < y2)
 }
 class Entity {
 	constructor(id, image, PROPS = {}, type) {
@@ -278,15 +278,16 @@ class Entity {
 				let obj = this;
 				let other = entities[j];
 				if (obj.id === other.id) continue;
-        let x1 = 0,
-            x2 = obj.height,
-            y1 = 0,
-            y2 = obj.width;
-        return (intersectRect(other.x, other.y, x1, x2, y1, y2) ||
-            intersectCircle(other.x, other.y, 5,x1, x2, y1, y2) ||
-            intersectCircle(other.x, other.y, 5,x1, x2, y1, y2) ||
-            intersectCircle(other.x, other.y, 5,x1, x2, y1, y2) ||
-            intersectCircle(other.x, other.y, 5,x1, x2, y1, y2))
+        let x1 = this.x,
+            x2 = this.y + obj.height/2,
+            y1 = this.y ,
+            y2 = this.y + obj.width/2;
+        return (intersectRect(obj.x, obj.y, x1, x2, y1, y2) || //checks if circle is in rect
+            intersectCircle(obj.x, obj.y, obj.width ,x1, y1) ||//checks if left top corner in circle
+            intersectCircle(obj.x, obj.y, obj.width ,x2, y1) ||//top right
+            intersectCircle(obj.x, obj.y, obj.width ,x1, y2) ||//bottom left
+            intersectCircle(obj.x, obj.y, obj.width ,x2, y2))//bottom right
+        return other.id;
 				//if (Math.sqrt((other.x - obj.x) * (other.x - obj.x) + (other.y - obj.y) * (other.y - obj.y)) < obj.width) return other.id;
 			}
 			return null
