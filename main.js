@@ -267,7 +267,7 @@ class Entity {
     this.type = type;
     this.collisions = function() {
       if (this.x + this.width/2 > WIDTH || this.x - this.width/2 < 0 ||
-          this.y + this.height/2 > HEIGHT || this.y - this.height/2 < 0) return "w";
+          this.y + this.height*2 > HEIGHT || this.y - this.height/2 < 0) return "w";
 		for (let j = 0; j < entities.length; j++) {
 			let obj = this;
 			let other = entities[j];
