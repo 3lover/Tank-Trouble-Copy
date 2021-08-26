@@ -285,6 +285,10 @@ class Entity {
 					ctx.fillStyle = "black";
 					ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
 					ctx.stroke();
+          ctx.arc(0, 0, this.width, 0, 360)
+          ctx.fillStyle = "red"
+          ctx.fill();
+          ctx.fillStyle = 'black'
 					break;
         case 1:
           ctx.lineWidth = 2;
@@ -588,7 +592,7 @@ function collisions() {
 				obj.x - obj.width / 2 < other.x + other.width / 2 &&
 				obj.y + obj.height / 2 > other.y - other.height / 2 &&
 				obj.y - obj.height / 2 < other.y + other.height / 2) return other.id;*/
-      if (Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)) < r) return other.id;
+      if (Math.sqrt((other.x-obj.x)*(other.x-obj.x) + (other.y-obj.y)*(other.y-obj.y)) < obj.width) return other.id;
 		}
 	}
 	return 1
