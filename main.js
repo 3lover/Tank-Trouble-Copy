@@ -576,7 +576,7 @@ function collisions() {
         if (obj.x + obj.width/2 > other.x - other.width/2 &&
             obj.x - obj.width/2 < other.x + other.width/2 &&
             obj.y + obj.height/2 > other.y - other.height/2 &&
-            obj.y - obj.height/2 < other.y + other.height/2) console.innerHTML = "h";
+            obj.y - obj.height/2 < other.y + other.height/2) r;
     }
   }
 }
