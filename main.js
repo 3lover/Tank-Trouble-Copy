@@ -210,25 +210,13 @@ function tanktest() {
 	e = new Entity(
 		i+"w", 0, {
 			x: WIDTH / 40 * (i*3),
-			y: WIDTH / 40 * 5,
-			width: WIDTH / 100,
-			height: WIDTH / 8
+			y: WIDTH / 40 * (i*3),
+			width: WIDTH / 3,
+			height: WIDTH / 3
 		}, 1
 	);
 	entities.push(e);
   }
-	moveIn(
-		-WIDTH + WIDTH - WIDTH / 5,
-		[
-			WIDTH,
-			0 + HEIGHT / 45,
-			WIDTH / 5 - 10,
-			HEIGHT * 0.2 - HEIGHT / 15,
-			"optionsBack"
-		],
-		["< Back", HEIGHT / 45, 0, "start", WIDTH / 47],
-		2
-	);
   	e = new Entity(
 		1,
 		0, {
@@ -240,9 +228,9 @@ function tanktest() {
 	);
 	entities.push(e);
   do {
-    e.x = Math.floor(Math.random * 1000)
-    e.x = Math.floor(Math.random * 1000)
-  }while(e.collisions() !== null)
+    e.x = Math.floor(Math.random() * 1000)
+    e.y = Math.floor(Math.random() * 1000)
+  }while(e.collisions() != null)
 	refresh();
 }
 
