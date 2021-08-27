@@ -205,14 +205,15 @@ function options() {
 function tanktest() {
 	inputWaiting = false;
 	entities = [];
+  let e;
   for(let i = 0; i < 5; i++) {
-	let e = new Entity(
-		"w", 0, {
+	e = new Entity(
+		i, 0, {
 			x: WIDTH / 40 * (i*3),
 			y: WIDTH / 40 * 5,
 			width: WIDTH / 50,
 			height: WIDTH / 8
-		}, 1
+		}, i
 	);
 	entities.push(e);
   }
@@ -275,16 +276,16 @@ class Entity {
     }
 
     if (distX <= other.x - (other.width / 2)) {
-        return other.id;
+        return "w";
     }
     if (distY <= other.y - (other.height / 2)) {
-        return other.id;
+        return "w";
     }
 
     let dx = distX - other.width / 2;
     let dy = distY - other.height / 2;
     if (dx * dx + dy * dy <= ((obj.width/2) **2))
-      return other.id;
+      return "w";
 		console.innerHTML = distX + " : " + distY + " : " + dx + " : " + dy + " : " + (obj.width/2)**2
 			}
 			return null;
