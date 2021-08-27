@@ -200,6 +200,7 @@ function options() {
 		);
 	}
 	refresh();
+  console.innerHTML = "yee"
 }
 
 function tanktest() {
@@ -314,6 +315,21 @@ class Entity {
 		};
 	}
 }
+function insideRect(x, y, i, options = 1) {
+	//checks if the x/y position given is within button number i, and return what option for selectors
+	//console.innerHTML = (x > i.x && x < i.x + i.width && y > i.y && y < i.y + i.height)
+	if (options == 1)
+		return x > i.x && x < i.x + i.width && y > i.y && y < i.y + i.height;
+	for (let j = 0; j < options; j++) {
+		if (
+			x > i.x &&
+			x < i.x + i.width &&
+			y > i.y + (i.height / options) * j &&
+			y < i.y + i.height - (i.height - (i.height / options) * (j + 1))
+		)
+			return j;
+	}
+}
 class UIBox {
 	//initialize the entity and fill it with whatever text is needed
 	constructor(
@@ -382,7 +398,7 @@ class UIBox {
 			this.clicked = function(event) {
 				if (this.type == 3)
 					numberSubmit(
-						insideRect(event.clientX, event.clientY, this, this.options)
+					insideRect(event.clientX, event.clientY, this, this.options)
 					);
 				switch (this.id) {
 					case "optionsBack":
