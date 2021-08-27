@@ -205,15 +205,17 @@ function options() {
 function tanktest() {
 	inputWaiting = false;
 	entities = [];
+  for(let i = 0; i < 5; i++) {
 	let e = new Entity(
 		"w", 0, {
-			x: WIDTH / 40 * 5,
+			x: WIDTH / 40 * (i*3),
 			y: WIDTH / 40 * 5,
-			width: WIDTH / 8,
-			height: WIDTH / 5
+			width: WIDTH / 50,
+			height: WIDTH / 8
 		}, 1
 	);
 	entities.push(e);
+  }
 	moveIn(
 		-WIDTH + WIDTH - WIDTH / 5,
 		[
@@ -239,21 +241,6 @@ function tanktest() {
 	refresh();
 }
 
-function insideRect(x, y, i, options = 1) {
-	//checks if the x/y position given is within button number i, and return what option for selectors
-	//console.innerHTML = (x > i.x && x < i.x + i.width && y > i.y && y < i.y + i.height)
-	if (options == 1)
-		return x > i.x && x < i.x + i.width && y > i.y && y < i.y + i.height;
-	for (let j = 0; j < options; j++) {
-		if (
-			x > i.x &&
-			x < i.x + i.width &&
-			y > i.y + (i.height / options) * j &&
-			y < i.y + i.height - (i.height - (i.height / options) * (j + 1))
-		)
-			return j;
-	}
-}
 function intersectCircle(px, py, radius, x, y, x2, y2) {
   return Math.sqrt((x.x - px.x) * (x.x - px.x) + (y.y - py.y) * (y.y - py.y)) < radius
 }
@@ -278,17 +265,8 @@ class Entity {
 				let obj = this;
 				let other = entities[j];
 				if (obj.id === other.id) continue;
-        /*let x1 = other.x - other.width/2,
-            x2 = other.x + other.width/2,
-            y1 = other.y - other.height/2,
-            y2 = other.y + other.height/2;
-        console.innerHTML = x1 + " : " + x2 + " : " + y1 + " : " + y2 + "<br>"
-        console.innerHTML += obj.x + " : " + obj.y
-        if (intersectRect(obj.x, obj.y, x1, x2, y1, y2) || //checks if circle is in rect
-            intersectRect(obj.x, obj.y, obj.width ,x1, y1, x2, y2))//checks if left top corner in circle
-        return other.id;*/
-    let distX = Math.abs(obj.x - other.x - other.width / 2);
-    let distY = Math.abs(obj.y - other.y - other.height / 2);
+    let distX = Math.abs(obj.x - other.x);
+    let distY = Math.abs(obj.y - other.y);
     if (distX > (other.width / 2 + (obj.width/2))) {
         return null;
     }
