@@ -208,12 +208,12 @@ function tanktest() {
   let e;
   for(let i = 0; i < 5; i++) {
 	e = new Entity(
-		i, 0, {
+		i+"w", 0, {
 			x: WIDTH / 40 * (i*3),
 			y: WIDTH / 40 * 5,
-			width: WIDTH / 50,
+			width: WIDTH / 100,
 			height: WIDTH / 8
-		}, i
+		}, 1
 	);
 	entities.push(e);
   }
@@ -269,10 +269,10 @@ class Entity {
     let distX = Math.abs(obj.x - other.x);
     let distY = Math.abs(obj.y - other.y);
     if (distX > (other.width / 2 + (obj.width/2))) {
-        return null;
+        continue;
     }
     if (distY > (other.height / 2 + (obj.height/2))) {
-        return null;
+        continue;
     }
 
     if (distX <= other.x - (other.width / 2)) {
@@ -286,7 +286,6 @@ class Entity {
     let dy = distY - other.height / 2;
     if (dx * dx + dy * dy <= ((obj.width/2) **2))
       return "w";
-		console.innerHTML = distX + " : " + distY + " : " + dx + " : " + dy + " : " + (obj.width/2)**2
 			}
 			return null;
 		}
