@@ -209,8 +209,8 @@ function tanktest() {
 		"w", 0, {
 			x: WIDTH / 40 * 5,
 			y: WIDTH / 40 * 5,
-			width: WIDTH / 30,
-			height: WIDTH / 30
+			width: WIDTH / 8,
+			height: WIDTH / 5
 		}, 1
 	);
 	entities.push(e);
@@ -287,8 +287,8 @@ class Entity {
         if (intersectRect(obj.x, obj.y, x1, x2, y1, y2) || //checks if circle is in rect
             intersectRect(obj.x, obj.y, obj.width ,x1, y1, x2, y2))//checks if left top corner in circle
         return other.id;*/
-    let distX = Math.abs(obj.x + obj.width/2 - other.x - other.width / 2);
-    let distY = Math.abs(obj.y + obj.height/2 - other.y - other.height / 2);
+    let distX = Math.abs(obj.x - other.x - other.width / 2);
+    let distY = Math.abs(obj.y - other.y - other.height / 2);
     if (distX > (other.width / 2 + (obj.width/2))) {
         return null;
     }
