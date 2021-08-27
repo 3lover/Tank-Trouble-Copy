@@ -239,6 +239,10 @@ function tanktest() {
 		}, 0
 	);
 	entities.push(e);
+  do {
+    e.x = Math.floor(Math.random * 1000)
+    e.x = Math.floor(Math.random * 1000)
+  }while(e.collisions() !== null)
 	refresh();
 }
 
