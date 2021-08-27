@@ -212,7 +212,7 @@ function tanktest() {
 			x: WIDTH / 40 * (i*3),
 			y: WIDTH / 40 * (i*3),
 			width: WIDTH / 3,
-			height: WIDTH / 3
+			height: WIDTH / 100
 		}, 1
 	);
 	entities.push(e);
@@ -292,9 +292,6 @@ class Entity {
 						img.src = image;
 						ctx.drawImage(img, -this.width / 2, -this.height / 2, this.width, this.height);
 					}
-					ctx.arc(0, 0, this.width / 2, 0, 360)
-					ctx.fillStyle = "red"
-					ctx.fill();
 					ctx.fillStyle = "black";
 					ctx.lineWidth = 5;
 					ctx.moveTo(-this.width / 2, -this.height / 2);
