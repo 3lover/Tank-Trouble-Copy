@@ -9,7 +9,13 @@ var entities = [],
 		powerupsAllowed: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		LDM: true
 	},
-	inputWaiting = true;
+	inputWaiting = true,
+  storedMaps = [// 1 top grid - 2 right - 3 bottom - 4 left
+    [14,12,14,12], 
+    [4,2,4,23],
+    [4,0,0,12],
+    [234,34,4,23]
+  ];
 
 function init() {
 	//sizes the canvas appropriately and resets the console before refreshing everything
